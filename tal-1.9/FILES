@@ -1,0 +1,8 @@
+FILES      - list of files which are part of the tal distribution
+INSTALL    - installation instructions
+LICENSE    - very brief legal stuff
+Makefile   - yes :)
+tal-1.9.ps - tal man page in postscript format for double-sided printing
+tal.1      - regular tal man page (the one you will want to install)
+tal.c      - tal source code
+tal19.txt  - tal man page in ASCII text format

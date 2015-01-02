@@ -1,0 +1,35 @@
+tal 1.9 Installation Notes
+
+First, change the default settings at the top of the source file tal.c
+according to your needs. However, changes are normally not required. 
+
+If you have the OS environment variable set correctly, just type make.
+Else type 'make youros' where youros is one of the following: 
+
+          aix41                linux
+          hpux9                osf1 (DEC alpha)
+          hpux10               sunos4
+          irix5 (for SGI)      sunos5
+          irix6 (for SGI)
+
+If your platform is not on the list, try all of the ones that are on the
+list. You stand a good chance that one of them is working for you. In fact
+I think tal will also compile on M$-DOS and other platforms that support
+the ANSI C programming language. Anyway, the program is so simple that
+compiling it really shouldn't be an insurmountable task.
+
+After you have successfully compiled it, copy the resulting binary into a
+directory that's in your PATH, and copy the man page into section 1 of a
+manpage location that's in the MANPATH.
+
+
+For use with vim, it might be nice to add a line such as
+
+          vmap ,t !tal<CR>
+
+to your ~/.vimrc. This way, you can select the lines using visual mode,
+then press ',t' to have the trailers aligned. 
+
+Read the man page for detailed information on tal's options.
+
+That's it. Enjoy! 

@@ -1,0 +1,224 @@
+.\" @(#)tal.1 1.9 03/11/99
+.\"
+.TH tal 1 "March 11 1999"
+.UC 4
+.SH NAME
+tal \- aligns characters at the ends of lines horizontally (e.g. box repair)
+.SH SYNOPSIS
+.B tal
+[-fhiv] [\-c\ char] [\-e\ str] [\-k\ column] [\-l\ length] [\-m\ maxalign]
+[\-p\ padding] [\-t\ tabs] [infile [outfile]]
+.SH DESCRIPTION
+.I tal
+is a text filter that reads in a number of lines and tries to determine an
+ending that all those lines have in common. Those common trailing
+characters (from now on called a 'trailer') are subsequently aligned, so
+that they all begin and end on the same column of text.
+.br
+This is useful to repair 'broken boxes' or align the backslashes on long
+macro definitions in C programs. But for that matter,
+.I tal
+will work on any kind of common ending.
+.I tal
+is especially useful as a filter for the
+.I vim(1)
+text editor.
+.\" =======================================================================
+.SH OPTIONS
+Options offered by
+.I tal
+are the following:
+.TP 0.6i
+.B -c \fIchar\fP
+Change the 'fill character'. The fill character is used to fill the entire
+space between the end of the text and the start of the trailer in order to
+move the trailer to the right. The fill character does not affect trailer
+detection. The factory default for
+.B -c
+is '\ ' (space).
+.\" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+.TP 0.6i
+.B -e \fIstring\fP
+Explicit trailer specification. This basically unnecessary option was
+included by popular request. The regular
+.I tal
+options such as
+.B -l
+(ell) and
+.B -f
+are useful for directing the trailer auto-detection process. Ordinarily,
+you would want to stick with the auto-detection, because it provides a
+general solution without restricting
+.I tal
+to specific trailers. However, in certain situations it may be desirable to
+specify the trailer directly.
+.B -e
+disables the auto-detection and thus overrides
+.B -l
+(ell) and
+.B -f\fP.
+.\" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+.TP 0.6i
+.B -f
+Force preferred trailer length. This makes
+.I tal
+choose the most frequent trailer of exactly the length specified with
+.B -l
+(ell).
+.B -l
+(ell) alone would choose a shorter trailer, if the shorter trailer was more
+frequent. In a nutshell, if
+.B -l
+(ell) doesn't perform as expected, add
+.B -f\fP.
+The factory default for
+.B -f
+is 'off' (do not force).
+.\" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+.TP 0.6i
+.B -h
+Print usage information. This also shows the default settings for all
+options as compiled into the particular binary.
+.\" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+.TP 0.6i
+.B -i
+Ignore case when matching trailers. This takes effect when auto-detecting
+a trailer as well as when matching an explicitly specified trailer.
+Trailer capitalization is unified on output. A particular spelling may be
+enforced with
+.B -e\fP.
+The factory default for
+.B -i
+is 'off' (be case sensitive).
+.\" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+.TP 0.6i
+.B -k \fIuint\fP
+Ending column. This tells
+.I tal
+to make the aligned lines end at exactly the given column. If not specified,
+the trailers will be positioned as close to the text as possible. A value
+of 0 (zero) turns this option off. The factory default for
+.B -k
+is 0 (zero).
+.\" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+.TP 0.6i
+.B -l \fIuint\fP
+(ell) Preferred trailer length. By default,
+.I tal
+chooses the longest possible trailer with the highest frequency. The
+"trailer frequency" is the number of lines containing the trailer. The
+.B -l
+(ell) option specifies the preferred trailer length. Its main function
+is to choose one trailer out of many of the same frequency. It will not be
+honored if a trailer of different length is more frequent (see
+.B -f\fP).
+.B -l
+(ell) is useful for increasing the chance of frequent trailers such as '*/'
+to be actually chosen. The factory default is 0 (zero), which turns this
+option off.
+.\" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+.TP 0.6i
+.B -m \fIuint\fP
+Maximum alignment column. Specifies the maximum length at which lines still
+look okay. The idea behind this is that a printout or computer screen
+provides space for a limited line length only. Longer lines will fold or be
+cut. Specify the length of your lines with
+.B -m
+and
+.I tal
+will make sure the aligned trailers are positioned before the specified
+column. This is achieved by simply not performing trailer alignment on lines
+which would become too long. For program code, the author uses a value of 87
+because his printouts are 87 characters wide. People set this to other values
+if their screen sizes or printout widths differ. A value of 0 (zero) disables
+this feature. The factory default for
+.B -m
+is 0 (zero).
+.\" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+.TP 0.6i
+.B -p \fIuint\fP
+Padding. The number of fill characters inserted in front of the trailers. A
+value of 3 would make
+.I tal
+place the trailers three characters away from the end of the text. The
+factory default for
+.B -p
+is 1.
+.\" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+.TP 0.6i
+.B -t \fIuint\fP
+Distance between tab stops. It is important that this value is set correctly,
+or tabulator characters will upset the alignment. The correct value for
+.B -t
+depends on the settings used for the text you are processing. Usually, a
+value of 8 should be okay. The factory default for
+.B -t
+is 8.
+.\" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+.TP 0.6i
+.B -v
+Print out current version number.
+.\" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+.PP
+The "factory defaults" for options as given above are the author's default
+settings. The default values compiled into the actual binary may differ.
+Please run 'tal -h' for the actual default values.
+.PP
+Some of the options might conflict with each other if specified at the
+same time. So here is the option precedence:
+.TP 0.3i
+1.
+.B -m
+is the mightiest option. If it conflicts with
+.B -k\fP,
+.B -k
+is neglected. Padding is added to the line length.
+.TP 0.3i
+2.
+.B -k
+overrides the padding, i.e.
+.B -k
+might reduce the padding for some of the long lines.
+.TP 0.3i
+3.
+.B -e
+disables trailer auto-detection and thus overrides
+.B -l
+(ell) and
+.B -f\fP.
+.PP
+Confused? Never mind. It all corresponds pretty much to the expected
+behavior.
+.\" =======================================================================
+.SH BUGS
+None known.  ;-)
+.br
+Should you notice any, please tell the author!
+.\" =======================================================================
+.SH AVAILABILITY
+.I tal
+is available from its World Wide Web home page at
+http://home.pages.de/~jensen/tal/. The Web page also features a number of
+examples illustrating this manual page.
+.PP
+Check out the
+.I vim(1)
+home page at www.vim.org!
+.\" =======================================================================
+.SH AUTHOR
+.I tal
+was made by Thomas Jensen.
+.br
+Please see the
+.I tal
+Web page for a current email address.
+.\" =======================================================================
+.SH VERSION
+This is
+.I tal
+version 1.9.
+.\" =======================================================================
+.SH "SEE ALSO"
+.I indent(1)
+,
+.I vim(1)

@@ -1,0 +1,11 @@
+Let's make this short, so you actually read it. The author has never
+noticed any bugs, but still: If tal filters away your master's thesis
+that's your problem! You are using this program ENTIRELY AT YOUR OWN RISK!
+On the other hand, it's free. You may even modify the code as long as the
+starting comment at the beginning of the C file clearly mentions the
+original author and just as clearly states the changes you have made.
+Same thing for the manpage.
+
+Of course the above is not a legally correct license, but I'm not a
+lawyer, and I guess it's pretty clear what I mean. One day, as soon as
+I understand it, I might put a fancy GNU GPL in this place.
